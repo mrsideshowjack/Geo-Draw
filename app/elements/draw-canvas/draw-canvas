@@ -1,0 +1,162 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="draw-canvas">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+  canvas{
+    cursor: crosshair;
+    border: 12px black;
+    -webkit-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    -moz-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+  .buttons{
+    display: flex;
+    margin: 60px;
+  }
+  .tab{
+    display: none;
+    height: 500px;
+    width: 1000px;
+    padding: 60px;
+    margin: 60px;
+    border: 12px black;
+    -webkit-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    -moz-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+  #tools{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+    </style>
+
+      <h1>draw-demo</h1>
+  <div id="canvasDiv">
+  <canvas id="canvas" width="1000px" height="700px"></canvas>
+  </div>
+  <div class="buttons">
+    <button type="button" id="colourbtn">Colour</button>
+    <button type="button" id="brushbtn">Brush</button>
+    <button type="button" id="sizebtn">Size</button>
+    <button type="button" id="eraserbtn">Eraser</button>
+    <button type="button" id="clearbtn" onclick="clearCanvas()">Clear</button>
+    <button type="button" id="sendbtn">Send</button>
+  </div>
+
+  <section id="tools">
+  <div id="colour" class="tab">
+    <h2>Colour</h2>
+  </div>
+    <div id="brush" class="tab">
+      <h2>brush</h2>
+  </div>
+    <div id="size" class="tab">
+      <h2>size</h2>
+      <input type="range" id="sizeRange" min="1" max="100">
+  </div>
+    <div id="send" class="tab">
+      <h2>send</h2>
+  </div>
+</section>
+
+  <script type="text/javascript">
+  context = document.getElementById('canvas').getContext("2d");
+    if (context == null) {
+      alert("You must use a browser that supports HTML5 Canvas to run this demo.");
+      return;
+    }
+
+ $('#colourbtn').click(function(){
+        $('#colour').toggle();
+    });
+  $('#brushbtn').click(function(){
+        $('#brush').toggle();
+    });
+ $('#sizebtn').click(function(){
+        $('#size').toggle();
+    });
+ $('#sendbtn').click(function(){
+  var myDataRef = new Firebase('https://geo-sketch.firebaseio.com/');
+    var data = context.getImageData(0, 0, canvas.width, canvas.height);
+    var JSONdata = JSON.stringify(data);
+    console.log(data);
+    console.log(JSONdata);
+
+    myDataRef.set(JSONdata);
+    });
+  
+
+  $('#canvas').on("vmousedown", function(e){
+  var mouseX = e.pageX - this.offsetLeft;
+  var mouseY = e.pageY - this.offsetTop;
+  var radius = document.getElementById("sizeRange").value;  
+  paint = true;
+  addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+  redraw(radius);
+});
+
+  $('#canvas').on("vmousemove",function(e){
+  if(paint){
+    addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+    redraw();
+  }
+});
+
+  $('#canvas').on("vmouseup",function(e){
+  paint = false;
+});
+
+  $('#canvas').on("vmouseleave",function(e){
+  paint = false;
+});
+
+  var clickX = new Array();
+var clickY = new Array();
+var clickDrag = new Array();
+var paint;
+
+function addClick(x, y, dragging)
+{
+  clickX.push(x);
+  clickY.push(y);
+  clickDrag.push(dragging);
+}
+
+function clearCanvas(){
+clickX = new Array();
+clickY = new Array();
+clickDrag = new Array();
+context.clearRect(0, 0, canvas.width, canvas.height); 
+}
+
+function redraw(radius){
+  context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+  context.strokeStyle = "#df4b26";
+  context.lineJoin = "round";
+      
+  for(var i=0; i < clickX.length; i++) {    
+    context.beginPath();
+    if(clickDrag[i] && i){
+      context.moveTo(clickX[i-1], clickY[i-1]);
+     }else{
+       context.moveTo(clickX[i]-1, clickY[i]);
+     }
+     context.lineTo(clickX[i], clickY[i]);
+     context.closePath();
+     context.lineWidth = radius;
+     context.stroke();
+  }
+}
+  </script>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'draw-canvas'
+    });
+  </script>
+</dom-module>

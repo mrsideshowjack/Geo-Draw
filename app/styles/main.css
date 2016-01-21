@@ -1,0 +1,118 @@
+/*
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+body {
+  background: #fafafa;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+iron-list {
+	height: 100%;
+ --iron-list-items-container: {
+ 	height: 80px;
+	padding: 16px;
+    margin: auto;
+  };
+}
+
+iron-pages{
+	width: 100%;
+	height: 100%;
+	padding: 0 !important;
+}
+
+paper-scroll-header-panel {
+
+  height: 100%;
+  width: 35vw;
+}
+paper-toolbar{
+  width: 35vw;
+  height: 190px;
+}
+paper-card{
+  width: 90%;
+  margin: 1em;
+  padding: 16px;
+}
+#map{
+  height: 100%; 
+  width: 100%;
+}
+#left{
+  height: 100%; 
+  width: 35vw;
+}
+#fab-draw{
+  position: fixed;
+  margin: 30px;
+  bottom: 0;
+  left: 24vw;
+  z-index: 2;
+}
+.row{
+  height: 80px;
+  padding: 16px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 16px;
+  background-color: #00BCD4;
+}
+
+
+
+
+#draw{
+	padding: 60px;
+}
+   canvas{
+    cursor: crosshair;
+    border: 12px black;
+    -webkit-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    -moz-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+  .buttons{
+    display: flex;
+    margin: 60px;
+  }
+  .tab{
+    list-style: none;
+    display: none;
+    height: 500px;
+    width: 500px;
+    padding: 60px;
+    margin: 60px;
+    border: 12px black;
+    -webkit-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    -moz-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+  #tools{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+  }
+  .buttons{    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    } 
+.toolbtn{
+  background: #212121;
+  margin: 20px !important;
+  width: 150px !important;
+}

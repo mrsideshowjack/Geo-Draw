@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="Polymer Starter Kit" />
+  <title>Geo-Draw</title>
+  <!-- Place favicon.ico in the `app/` directory -->
+
+  <!-- Chrome for Android theme color -->
+  <meta name="theme-color" content="#2E3AA1">
+
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Tile color for Win8 -->
+  <meta name="msapplication-TileColor" content="#3372DF">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="PSK">
+  <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
+  <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild-->
+
+  <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <!-- endbuild -->
+
+  <!-- will be replaced with elements/elements.vulcanized.html -->
+  <link rel="import" href="elements/elements.html">
+  <!-- endreplace-->
+
+  <!-- For shared styles, shared-styles.html import in elements.html -->
+  <style is="custom-style" include="shared-styles"></style>
+
+  <!-- RSVP -->
+<script src="rsvp.min.js"></script>
+
+
+
+
+<!-- Firebase -->
+<script src="https://cdn.firebase.com/js/client/2.2.5/firebase.js"></script>
+
+<!-- GeoFire -->
+<script src="https://cdn.firebase.com/libs/geofire/3.2.3/geofire.min.js"></script>
+
+<!--
+<link rel="import" href="/melon/melon.html">-->
+</head>
+<body unresolved class="fullbleed layout horizontal">
+  <span id="browser-sync-binding"></span>
+  <template is="dom-bind" id="app">
+
+<div id="left" fit layout vertical >
+       <paper-scroll-header-panel condenses keep-condensed-header>
+
+  <paper-toolbar>
+  <paper-icon-button icon="menu" on-tap=""></paper-icon-button>
+  <img style="height:80%;" src="images/Geo-Draw-Logo-alt.svg">
+  <div class="title">Geo-Sketch</div>
+  <paper-icon-button icon="refresh" on-tap="refreshData"></paper-icon-button>
+  <paper-icon-button icon="chevron-left" on-tap="toggleLeft()"></paper-icon-button>
+</paper-toolbar>
+
+
+<!-- <paper-fab icon="add" id="fab-draw" on-tap=""></paper-fab>
+<iron-list items="{{data}}" as="item" id="fakerList">
+      <template is="dom-bind">
+        <div class="row">
+          <iron-image class="avatar"
+                      src="{{item.avatar}}"
+                      preload
+                      sizing="cover">
+          </iron-image>
+          <div>{{item.name}}</div>
+        </div>
+      </template>
+    </iron-list> -->
+ <iron-ajax id="get_filltext_ajax" auto
+      url="//www.filltext.com/"
+      params='{"rows": "1000", "fname":"{firstName}", "lname": "{lastName}",
+       "city": "{city}", "business": "{business}", "index": "{index}"}'
+      handle-as="json"
+      loading="{{loading}}"
+      last-response="{{people}}">
+    </iron-ajax>
+      <iron-list items="[[people]]" as="item">
+        <template>
+          <div>
+            <paper-card class="item">
+              <div class="primary dim">[[item.index]]</div>
+              <iron-image style="width:100%; height:200px; background-color: lightgray;"
+  sizing="cover" preload fade  src="images/drawstuff.png"></iron-image>
+              <div class="pad">
+                <div class="primary"><span>[[item.fname]]</span> <span>[[item.lname]]</span></div>
+                <div class="secondary"><span>[[item.city]]</span></div>
+                <div class="secondary dim">[[item.business]]</div>
+                
+              
+            </paper-card>
+          </div>
+        </template>
+      </iron-list>
+
+      <paper-fab icon="add" id="fab-draw"></paper-fab>
+
+   </paper-scroll-header-panel> 
+</div></div>
+
+<iron-pages selected="0">
+
+
+ <section id="map">
+ <geo-location latitude="{{lat}}"
+               longitude="{{lng}}" 
+               highAccuracy="true"></geo-location>
+
+ <google-map latitude="[[lat]]" longitude="[[lng]]" zoom="15">
+   <google-map-marker latitude="[[lat]]" longitude="[[lng]]" icon="images/user-marker.png"></google-map-marker>
+   <google-map-marker latitude="50.786108" longitude=" -1.091166" icon="favicon.ico">
+  <img width="350px"src="images/drawstuff.png">
+</google-map-marker>
+<google-map-marker latitude="50.798505" longitude=" -1.098549" icon="favicon.ico">
+  <img width="350px"src="images/drawstuff.png">
+</google-map-marker>
+<google-map-marker latitude="50.799377" longitude=" -1.094519" icon="favicon.ico">
+  <img width="350px"src="images/drawstuff.png">
+</google-map-marker>
+<google-map-marker latitude="50.795846" longitude="  -1.107408" icon="favicon.ico">
+  <img width="350px"src="images/drawstuff.png">
+</google-map-marker>
+<google-map-marker latitude="50.801281" longitude="  -1.088726" icon="favicon.ico">
+  <img width="350px"src="images/drawstuff.png">
+</google-map-marker>
+<google-map-marker latitude="50.793310" longitude=" -1.098211" icon="favicon.ico">
+  <img width="350px"src="images/drawstuff.png">
+</google-map-marker>
+ </google-map>
+</section>
+
+<section id="draw">
+  <h1>draw-demo</h1>
+  <div id="canvasDiv">
+  <canvas id="canvas" width="1000px" height="700px" on-tap="canvasDown"></canvas>
+  </div>
+  <div class="buttons">
+    <button type="button" id="colourbtn" class="toolbtn"><i class="fa fa-eyedropper"></i>Colour</button>
+    <button type="button" id="sizebtn" class="toolbtn"><i class="fa fa-circle"></i>Size</button>
+    <button type="button" id="eraserbtn" class="toolbtn"><i class="fa fa-eraser"></i>Eraser</button>
+    <button type="button" id="clearbtn" class="toolbtn" onclick="clearCanvas()"><i class="fa fa-sticky-note-o"></i>Clear</button>
+    <button type="button" id="sendbtn" class="toolbtn"><i class="fa fa-share"></i>Send</button>
+  </div>
+
+  <section id="tools">
+  <div id="colour" class="tab">
+    <h2>Colour</h2>
+      <span>Choose a color: </span>
+    <li>
+      <button id="PurpleColor" type="button">Purple</button>
+      <button id="GreenColor" type="button">Green</button>
+      <button id="YellowColor" type="button">Yellow</button>
+      <button id="BrownColor" type="button">Brown</button>
+    </li>
+  </div>
+    <div id="size" class="tab">
+      <h2>size</h2>
+      <input type="range" id="sizeRange" min="1" max="100" value="10">
+  </div>
+    <div id="send" class="tab">
+      <h2>send</h2>
+  </div>
+</section>
+
+<script type="text/javascript">
+  var drawFab = document.querySelector('#fab-draw');
+drawFab.addEventListener('click', function(e) {
+    var pages = document.querySelector('iron-pages');
+    pages.selectNext();
+  });
+</script>
+
+</section>
+
+
+</iron-pages>
+
+
+
+
+
+
+   <paper-toast id="caching-complete"
+                 duration="6000"
+                 text="Caching complete! This app will work offline.">
+    </paper-toast>
+
+    <platinum-sw-register auto-register
+                          clients-claim
+                          skip-waiting
+                          on-service-worker-installed="displayInstalledToast">
+      <platinum-sw-cache default-cache-strategy="fastest"
+                         cache-config-file="cache-config.json">
+      </platinum-sw-cache>
+    </platinum-sw-register>
+
+</template>
+
+  <!-- build:js scripts/app.js -->
+  <script src="bower_components/Faker/build/build/faker.js"></script>
+  <script src="scripts/draw.js"></script>
+  <script src="scripts/app.js"></script>
+  <!-- endbuild-->
+</body>
+
+</html>
