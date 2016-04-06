@@ -1,0 +1,31 @@
+
+<script type="text/javascript" src="atrament.js"></script>
+
+<dom-module id="draw">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+<h1>draw</h1>
+    <canvas id="mySketcher" width="500px" height="500px">
+
+      <script>
+    var atrament = atrament('canvas', window.innerWidth, window.innerHeight);
+  </script>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      
+      Polymer({
+        is: 'draw-pad',
+        var sketcher = atrament('#mySketcher');
+
+      });
+    })();
+  </script>
+</dom-module>

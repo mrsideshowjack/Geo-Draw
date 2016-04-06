@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <!--
 @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
@@ -9,13 +9,13 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<html lang="">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="generator" content="Polymer Starter Kit" />
+  <meta name="generator" content="Geo-Draw" />
   <title>Geo-Draw</title>
   <!-- Place favicon.ico in the `app/` directory -->
 
@@ -39,6 +39,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
   <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
 
+  <!-- Tile icon for Win8 (144x144) -->
+  <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild-->
@@ -47,58 +50,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <!-- endbuild -->
 
-  <!-- will be replaced with elements/elements.vulcanized.html -->
+  <!-- Because this project uses vulcanize this should be your only html import
+       in this file. All other imports should go in elements.html -->
   <link rel="import" href="elements/elements.html">
-  <!-- endreplace-->
 
   <!-- For shared styles, shared-styles.html import in elements.html -->
   <style is="custom-style" include="shared-styles"></style>
 
-  <!-- RSVP -->
-<script src="rsvp.min.js"></script>
-
-
-
-
-<!-- Firebase -->
-<script src="https://cdn.firebase.com/js/client/2.2.5/firebase.js"></script>
-
-<!-- GeoFire -->
-<script src="https://cdn.firebase.com/libs/geofire/3.2.3/geofire.min.js"></script>
-
-<!--
-<link rel="import" href="/melon/melon.html">-->
+  <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="atrament.js"></script>
 </head>
-<body unresolved class="fullbleed layout horizontal">
+
+<body unresolved>
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
-<div id="left" fit layout vertical >
-       <paper-scroll-header-panel condenses keep-condensed-header>
+    <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
 
-  <paper-toolbar>
-  <paper-icon-button icon="menu" on-tap=""></paper-icon-button>
-  <img style="height:80%;" src="images/Geo-Draw-Logo-alt.svg">
-  <div class="title">Geo-Sketch</div>
-  <paper-icon-button icon="refresh" on-tap="refreshData"></paper-icon-button>
-  <paper-icon-button icon="chevron-left" on-tap="toggleLeft()"></paper-icon-button>
-</paper-toolbar>
-
-
-<!-- <paper-fab icon="add" id="fab-draw" on-tap=""></paper-fab>
-<iron-list items="{{data}}" as="item" id="fakerList">
-      <template is="dom-bind">
-        <div class="row">
-          <iron-image class="avatar"
-                      src="{{item.avatar}}"
-                      preload
-                      sizing="cover">
-          </iron-image>
-          <div>{{item.name}}</div>
-        </div>
-      </template>
-    </iron-list> -->
- <iron-ajax id="get_filltext_ajax" auto
+      <div class="nav" drawer>
+        <!-- Nav Content -->
+                   <iron-ajax id="get_filltext_ajax" auto
       url="//www.filltext.com/"
       params='{"rows": "1000", "fname":"{firstName}", "lname": "{lastName}",
        "city": "{city}", "business": "{business}", "index": "{index}"}'
@@ -123,16 +94,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </template>
       </iron-list>
+      </div>
 
-      <paper-fab icon="add" id="fab-draw"></paper-fab>
+      <paper-header-panel class="main" main mode="waterfall">
 
-   </paper-scroll-header-panel> 
-</div></div>
+        <!-- Main Toolbar -->
+        <paper-toolbar>
+          <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+           <div class="title">Geo-Draw</div>
+        </paper-toolbar>
 
-<iron-pages selected="0">
+        <!-- Main Content -->
+        <div class="content">
+          <iron-pages selected="0">
+        <section id="draw">
+            <h1>draw</h1>
+            <paper-fab id="fab-add" icon="add"></paper-fab>
+    <canvas id="mySketcher" width="500px" height="500px"></canvas>
 
+      <script>
+    var atrament = atrament('canvas', window.innerWidth, window.innerHeight);
+  </script>
+        <draw-pad></draw-pad>
 
- <section id="map">
+        </section>
+
+     <section id="map">
  <geo-location latitude="{{lat}}"
                longitude="{{lng}}" 
                highAccuracy="true"></geo-location>
@@ -159,59 +146,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </google-map-marker>
  </google-map>
 </section>
-
-<section id="draw">
-  <h1>draw-demo</h1>
-  <div id="canvasDiv">
-  <canvas id="canvas" width="1000px" height="700px" on-tap="canvasDown"></canvas>
-  </div>
-  <div class="buttons">
-    <button type="button" id="colourbtn" class="toolbtn"><i class="fa fa-eyedropper"></i>Colour</button>
-    <button type="button" id="sizebtn" class="toolbtn"><i class="fa fa-circle"></i>Size</button>
-    <button type="button" id="eraserbtn" class="toolbtn"><i class="fa fa-eraser"></i>Eraser</button>
-    <button type="button" id="clearbtn" class="toolbtn" onclick="clearCanvas()"><i class="fa fa-sticky-note-o"></i>Clear</button>
-    <button type="button" id="sendbtn" class="toolbtn"><i class="fa fa-share"></i>Send</button>
-  </div>
-
-  <section id="tools">
-  <div id="colour" class="tab">
-    <h2>Colour</h2>
-      <span>Choose a color: </span>
-    <li>
-      <button id="PurpleColor" type="button">Purple</button>
-      <button id="GreenColor" type="button">Green</button>
-      <button id="YellowColor" type="button">Yellow</button>
-      <button id="BrownColor" type="button">Brown</button>
-    </li>
-  </div>
-    <div id="size" class="tab">
-      <h2>size</h2>
-      <input type="range" id="sizeRange" min="1" max="100" value="10">
-  </div>
-    <div id="send" class="tab">
-      <h2>send</h2>
-  </div>
-</section>
-
-<script type="text/javascript">
-  var drawFab = document.querySelector('#fab-draw');
-drawFab.addEventListener('click', function(e) {
-    var pages = document.querySelector('iron-pages');
-    pages.selectNext();
-  });
-</script>
-
-</section>
-
-
 </iron-pages>
+          
 
+      </paper-header-panel>
 
+    </paper-drawer-panel>
 
+</div>
 
+    <paper-toast id="toast">
+      <span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
+    </paper-toast>
 
-
-   <paper-toast id="caching-complete"
+    <!-- Uncomment next block to enable Service Worker support (1/2) -->
+    <!--
+    <paper-toast id="caching-complete"
                  duration="6000"
                  text="Caching complete! This app will work offline.">
     </paper-toast>
@@ -219,17 +169,17 @@ drawFab.addEventListener('click', function(e) {
     <platinum-sw-register auto-register
                           clients-claim
                           skip-waiting
+                          base-uri="bower_components/platinum-sw/bootstrap"
                           on-service-worker-installed="displayInstalledToast">
       <platinum-sw-cache default-cache-strategy="fastest"
                          cache-config-file="cache-config.json">
       </platinum-sw-cache>
     </platinum-sw-register>
+    -->
 
-</template>
+  </template>
 
   <!-- build:js scripts/app.js -->
-  <script src="bower_components/Faker/build/build/faker.js"></script>
-  <script src="scripts/draw.js"></script>
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
 </body>

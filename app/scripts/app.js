@@ -15,11 +15,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
   var app = document.querySelector('#app');
 
+  // Sets app default base URL
+  app.baseUrl = '/';
+  if (window.location.port === '') {  // if production
+    // Uncomment app.baseURL below and
+    // set app.baseURL to '/your-pathname/' if running from folder in production
+    // app.baseUrl = '/polymer-starter-kit/';
+  }
 
   app.displayInstalledToast = function() {
     // Check to make sure caching is actually enabled—it won't be in the dev environment.
-    if (!document.querySelector('platinum-sw-cache').disabled) {
-      document.querySelector('#caching-complete').show();
+    if (!Polymer.dom(document).querySelector('platinum-sw-cache').disabled) {
+      Polymer.dom(document).querySelector('#caching-complete').show();
     }
   };
 
@@ -38,15 +45,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // the appName in the middle-container and the bottom title in the bottom-container.
   // The appName is moved to top and shrunk on condensing. The bottom sub title
   // is shrunk to nothing on condensing.
-  addEventListener('paper-header-transform', function(e) {
-    var appName = document.querySelector('#mainToolbar .app-name');
-    var middleContainer = document.querySelector('#mainToolbar .middle-container');
-    var bottomContainer = document.querySelector('#mainToolbar .bottom-container');
+  window.addEventListener('paper-header-transform', function(e) {
+    var appName = Polymer.dom(document).querySelector('#mainToolbar .app-name');
+    var middleContainer = Polymer.dom(document).querySelector('#mainToolbar .middle-container');
+    var bottomContainer = Polymer.dom(document).querySelector('#mainToolbar .bottom-container');
     var detail = e.detail;
     var heightDiff = detail.height - detail.condensedHeight;
     var yRatio = Math.min(1, detail.y / heightDiff);
-    var maxMiddleScale = 0.50;  // appName max size when condensed. The smaller the number the smaller the condensed size.
-    var scaleMiddle = Math.max(maxMiddleScale, (heightDiff - detail.y) / (heightDiff / (1-maxMiddleScale))  + maxMiddleScale);
+    // appName max size when condensed. The smaller the number the smaller the condensed size.
+    var maxMiddleScale = 0.50;
+    var auxHeight = heightDiff - detail.y;
+    var auxScale = heightDiff / (1 - maxMiddleScale);
+    var scaleMiddle = Math.max(maxMiddleScale, auxHeight / auxScale + maxMiddleScale);
     var scaleBottom = 1 - yRatio;
 
     // Move/translate middleContainer
@@ -59,42 +69,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer.Base.transform('scale(' + scaleMiddle + ') translateZ(0)', appName);
   });
 
-  // Close drawer after menu item is selected if drawerPanel is narrow
-  app.onDataRouteClick = function() {
-    var drawerPanel = document.querySelector('#paperDrawerPanel');
-    if (drawerPanel.narrow) {
-      drawerPanel.closeDrawer();
-    }
-  };
-
   // Scroll page to top and expand header
   app.scrollPageToTop = function() {
-    document.getElementById('mainContainer').scrollTop = 0;
+    app.$.headerPanelMain.scrollToTop(true);
   };
 
+  app.closeDrawer = function() {
+    app.$.paperDrawerPanel.closeDrawer();
+  };
 
-    // Refresh Data
-    // app.refreshData = function() {
-    //   this.$.get_filltext_ajax.generateRequest();
-    // };
-var fakerList = document.querySelector('#fakerList');
-fakerList.data = generateContacts();
-
-function generateContacts() {
-  var data = [];
-  for(var i = 0; i < 1000; i++) {
-    data.push({
-      name: faker.name.findName(),
-      avatar: faker.image.avatar()
-    });
-  }
-  return data;
-}
-
-function toggleLeft(){
-  var e = app.querySelector('#left');
-      e.toggleClass("hidden");
-}
+    var fabadd = document.getElementById('fab-add');
+    fabadd.addEventListener('click', function(e) {
+    console.log("hsfkdmnh");
+    var pages = document.querySelector('iron-pages');
+    pages.selectNext();
+  });
 
 
 })(document);

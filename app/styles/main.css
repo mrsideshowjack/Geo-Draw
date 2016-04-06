@@ -1,118 +1,125 @@
-/*
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
+#map {
+    height: 100%;
+    width: 100%
+}
 body {
-  background: #fafafa;
-  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #333;
+    background: #fafafa;
+    font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #333
 }
-
+.title{
+	font-size: 2em;
+	font-family: 'Lobster', cursive !important; 
+	text-align: center;
+}
+#drawer{
+	background-color: pink;
+	width: 5000px;
+}
 iron-list {
-	height: 100%;
- --iron-list-items-container: {
- 	height: 80px;
-	padding: 16px;
-    margin: auto;
-  };
+    height: 100%;
+    --iron-list-items-container: {
+        height: 80px;
+        padding: 16px;
+        margin: auto
+    }
+    ;
 }
-
-iron-pages{
-	width: 100%;
-	height: 100%;
-	padding: 0 !important;
+paper-fab {
+    position: absolute !important;
+    bottom: 0;
+    right: 0;
+    margin: 2.5em;
 }
-
+/*
+iron-pages {
+    padding: 0!important
+}
+#left
 paper-scroll-header-panel {
-
-  height: 100%;
-  width: 35vw;
+    height: 100%;
+    width: 35vw
 }
-paper-toolbar{
-  width: 35vw;
-  height: 190px;
+paper-toolbar {
+    width: 35vw;
+    height: 190px
 }
-paper-card{
-  width: 90%;
-  margin: 1em;
-  padding: 16px;
+paper-card {
+    width: 90%;
+    margin: 1em;
+    padding: 16px
 }
-#map{
-  height: 100%; 
-  width: 100%;
+#fab-draw {
+    position: fixed;
+    margin: 30px;
+    bottom: 0;
+    left: 24vw;
+    z-index: 2
 }
-#left{
-  height: 100%; 
-  width: 35vw;
+.row {
+    height: 80px;
+    padding: 16px
 }
-#fab-draw{
-  position: fixed;
-  margin: 30px;
-  bottom: 0;
-  left: 24vw;
-  z-index: 2;
+#draw,
+.tab {
+    padding: 60px
 }
-.row{
-  height: 80px;
-  padding: 16px;
-}
-
 .avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 16px;
-  background-color: #00BCD4;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 16px;
+    background-color: #00BCD4
 }
-
-
-
-
-#draw{
-	padding: 60px;
+.tab,
+canvas {
+    border: 12px #000;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .22)
 }
-   canvas{
-    cursor: crosshair;
-    border: 12px black;
-    -webkit-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    -moz-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-  }
-  .buttons{
-    display: flex;
-    margin: 60px;
-  }
-  .tab{
+canvas {
+    cursor: crosshair
+}
+.tab {
     list-style: none;
     display: none;
     height: 500px;
     width: 500px;
-    padding: 60px;
-    margin: 60px;
-    border: 12px black;
-    -webkit-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    -moz-box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-  }
-  #tools{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    
-  }
-  .buttons{    
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    } 
-.toolbtn{
-  background: #212121;
-  margin: 20px !important;
-  width: 150px !important;
+    margin: 60px
 }
+#tools {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap
+}
+.buttons {
+    margin: 60px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap
+}
+.toolbtn {
+    background: #212121;
+    margin: 20px!important;
+    width: 150px!important
+}*/
