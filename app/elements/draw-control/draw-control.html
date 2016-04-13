@@ -1,0 +1,116 @@
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/animations/fade-out-animation.html">
+<link rel="import" href="../bower_components/animations/scale-up-animation.html">
+
+
+<dom-module id="draw-control">
+  <template>
+    <style type="text/css">
+    h1{
+    	text-align: center;
+    }
+    form > *{
+    	display: block;
+      text-align: center;
+    	margin: 2em;
+    }
+    form iron-label{
+    	margin: 0;
+/*      padding-left: 25%;
+      padding-right: 25%;*/
+    }
+    paper-button.eraser{
+    	background-color: var(--paper-red-500);
+    	color: white;
+    }
+    paper-button.save1{
+    	background-color: var(--paper-green-500);
+    	color: white;
+    }
+    paper-dialog{
+      width: 60vw;
+      max-width: 90vw;
+    }
+/*    	form {
+                z-index: 3;
+                position: fixed;
+                top: 300;
+                left: 100;
+                background: rgba(0, 0, 0, 0.7);
+                padding: 1em;
+                color:white;
+            }
+            form * {
+                margin-bottom: 1em;
+            }
+*/    </style>
+	 <geo-location latitude="{{usr-lat}}"
+               longitude="{{usr-lng}}" 
+               highAccuracy="true"></geo-location>
+
+	<h1>Controls</h1>
+
+    <form is="iron-form" id="control-form">
+      <paper-button raised onclick="atrament.clear()" class="eraser">clear</paper-button><br>
+
+      <iron-label>Thickness</iron-label><br>
+    <!--   <paper-slider min="1" max="40" oninput="atrament.weight = parseFloat(event.target.value);" value="2"></paper-slider> -->
+      <input type="range" min="1" max="40" oninput="atrament.weight = parseFloat(event.target.value);" value="2" step="0.1"/><br>
+
+     
+     <paper-checkbox onchange="atrament.smoothing = event.target.checked;" checked> Smoothing</paper-checkbox> 
+
+
+      <paper-checkbox onchange="atrament.mode = event.target.checked ? 'erase' : 'draw';" > Eraser</paper-checkbox>
+
+
+      <iron-label>Colour</iron-label>
+      <input type="color" onchange="atrament.color = event.target.value;"><br>
+      <iron-label>Opacity</iron-label><br>
+      <!-- https://github.com/David-Mulder/paper-color-picker -->
+
+      <input type="range" min="0" max="1" onchange="atrament.opacity = parseFloat(event.target.value);" value="1" step="0.05"><br>
+
+      <paper-button raised onclick="var dataURL = atrament.toImage(); window.open(dataURL);" class="save1">save and open</paper-button><br>
+
+      <paper-button raised on-tap="saveTap">save dialog</paper-button>
+</form>
+
+
+      <paper-dialog entry-animation="scale-up-animation"
+                    exit-animation="fade-out-animation"
+                    modal="true">
+        <h2>Save</h2>
+        <form is="iron-form" id="save-form" method="post" action="/form/handler">
+
+        <iron-image src="dataURL" preload sizing="contain" placeholer="../images/drawstuff.png"></iron-image>
+
+          <paper-input label="Title" maxlength="15"></paper-input>
+          <paper-textarea label="Description" char-counter maxlength="100"></paper-textarea>
+          <paper-input disabled label="long"  value="[[usr-lng]]"></paper-input>
+          <paper-input disabled label="lat"  value="[[usr-lat]]"></paper-input>
+        </form>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm>Accept</paper-button>
+      </div>
+      </paper-dialog>
+
+    
+  </template>
+  <script>
+    Polymer({
+      is: 'draw-control',
+     saveTap: function(){
+        var dialog = document.querySelector('paper-dialog');
+        var dataURL = atrament.toImage();
+        dialog.open();
+      }
+    });
+  </script>
+</dom-module>
+

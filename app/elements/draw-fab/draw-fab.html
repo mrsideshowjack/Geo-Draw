@@ -1,26 +1,46 @@
 
-<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 
 <dom-module id="draw-fab">
   <template>
     <style type="text/css">
-      paper-fab {
+    paper-fab {
+    background-color: var(--accent-color);
     z-index: 30;
     position: absolute !important;
     bottom: 0;
     right: 0;
     margin: 3em;
+    visibility: hidden;
 }
+  paper-fab#fab-map{
+  }
+  .visible{
+    visibility: visible !important;
+  }
     </style>
-    <paper-fab id="fab-add" icon="add" on-tap="handleTap"></paper-fab>
+    <paper-fab id="fab-add" icon="add" on-tap="handleTap" class="visible"></paper-fab>
+    <paper-fab id="fab-map" icon="maps:place" on-tap="handleTap"></paper-fab>
   </template>
   <script>
     Polymer({
       is: 'draw-fab',
       handleTap: function() {
 
-    var pages = document.querySelector('iron-pages');
-    pages.selectNext();
+    var fabAdd = document.querySelector('#fab-add');
+    var fabMap = document.querySelector('#fab-map');
+    if( fabAdd.classList.contains('visible') ) {
+      fabAdd.classList.remove('visible');
+      fabMap.classList.add('visible');
+    } else {
+      fabAdd.classList.add('visible');
+      fabMap.classList.remove('visible');
+    }
+    var mainPages = document.querySelector('#iron-pages-main');
+    var navPages = document.querySelector('#iron-pages-nav');
+    mainPages.selectNext();
+    navPages.selectNext();
+
       }
     });
   </script>

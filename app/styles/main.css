@@ -1,5 +1,5 @@
 #map {
-    height: 100%;
+    height: calc(100vh - 64px);
     width: 100%;
 }
 body {
@@ -8,13 +8,16 @@ body {
     color: #333;
 }
 .title{
-	font-size: 3em;
 	font-family: 'Lobster', cursive !important; 
 	text-align: center;
 }
+.title h1{
+    display: inline-block;
+}
 .title img {
     display: inline-block;
-    max-height: 60px;
+    max-height: 5vh;
+    margin-right: 10px;
 }
 #drawer{
 	background-color: pink;
@@ -37,18 +40,7 @@ iron-list {
     background-color: #EEEEEE;
 }
 
-            form {
-                z-index: 3;
-                position: fixed;
-                top: 300;
-                left: 100;
-                background: rgba(0, 0, 0, 0.7);
-                padding: 1em;
-                color:white;
-            }
-            form * {
-                margin-bottom: 1em;
-            }
+           
 /*
 iron-pages {
     padding: 0!important

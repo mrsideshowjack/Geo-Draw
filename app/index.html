@@ -44,7 +44,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
-
   <!-- endbuild-->
 
   <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
@@ -57,21 +56,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- For shared styles, shared-styles.html import in elements.html -->
   <style is="custom-style" include="shared-styles"></style>
-  <style is="custom-style" include="app-theme"></style>
 
   <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
   <script type="text/javascript" src="scripts/atrament.js"></script>
 </head>
 
 <body unresolved>
-<firebase-auth auto-login="" location="https://geo-draw.firebaseio.com/" provider="anonymous" status-known=""></firebase-auth>
+
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
     <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
 
       <div class="nav" drawer>
-        <!-- Nav Content -->
+      <iron-pages selected="0" id="iron-pages-nav">
+<section>
       <iron-ajax id="get_filltext_ajax" auto
       url="//www.filltext.com/"
       params='{"rows": "100", "fname":"{firstName}", "lname": "{lastName}",
@@ -83,7 +82,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <iron-list items="[[people]]" as="item">
         <template>
           <div>
-            <paper-card class="item">
+            <paper-material class="item">
               <div class="primary dim">[[item.index]]</div>
               <iron-image style="width:100%; height:200px; background-color: lightgray;"
   sizing="cover" preload fade  src="images/drawstuff.png"></iron-image>
@@ -93,10 +92,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <div class="secondary dim">[[item.business]]</div>
                 
               
-            </paper-card>
+            </paper-material>
           </div>
         </template>
       </iron-list>
+      </section>
+
+      <section>
+        <draw-control></draw-control>
+      </section>
+
+
+      
+</iron-pages>
+
       </div>
 
       <paper-header-panel class="main" main mode="waterfall">
@@ -105,7 +114,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-toolbar>
           <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
 
-           <div class="title"><img src="images/Geo-Draw-Logo-alt.svg" >Geo-Draw</div>
+           <div class="title"><img src="images/Geo-Draw-Logo-alt.svg" ><h1>Geo-Draw</h1></div>
 
         </paper-toolbar>
 
@@ -113,22 +122,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="content">
 
         <draw-fab></draw-fab>
-          <iron-pages selected="0">
+          <iron-pages selected="1" id="iron-pages-main">
         <section id="draw">
-            <form>
-      <button onclick="atrament.clear()">clear</button><br>
-      <label>Thickness</label><br>
-      <input type="range" min="1" max="40" oninput="atrament.weight = parseFloat(event.target.value);" value="2" step="0.1"/><br>
-      <label>Smoothing</label><br>
-      <input type="checkbox" onchange="atrament.smoothing = event.target.checked;" checked><br>
-      <label>Eraser</label>
-      <input type="checkbox" onchange="atrament.mode = event.target.checked ? 'erase' : 'draw';"><br>
-      <label>Colour</label>
-      <input type="color" onchange="atrament.color = event.target.value;"><br>
-      <label>Opacity</label><br>
-      <input type="range" min="0" max="1" onchange="atrament.opacity = parseFloat(event.target.value);" value="1" step="0.05"><br>
-      <button onclick="var dataURL = atrament.toImage(); window.open(dataURL);">save</button>
-    </form>           
+                       
     <canvas id="mySketcher" width="500px" height="500px"></canvas>
 
       <script>
@@ -148,7 +144,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
    <google-map-marker latitude="[[usr-lat]]" longitude="[[usr-lng]]" icon="images/user-marker.png"></google-map-marker>
 
 
-
+<!-- 
 <iron-ajax id="get_filltext_ajax_2" auto
       url="//www.filltext.com/"
       params='{"rows": "500",
@@ -165,7 +161,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                          icon="favicon.ico">
                          <img width="350px"src="images/drawstuff.png">
       </google-map-marker>
-    </template>
+    </template> -->
+
+    <template is="dom-bind">
+    <firebase-collection
+      location="https://geo-draw.firebaseio.com/posts"
+      data="{{posts}}"></firebase-collection>
+
+      <template is="dom-repeat" items="{{posts}}" as="posts">
+      <google-map-marker latitude="{{posts.lat}}"
+                         longitude="{{posts.long}}"
+                         icon="favicon.ico">
+                         <h4>[[posts.__firebaseKey__]]</h4>
+                         <img width="350px"src="images/drawstuff.png">
+      </google-map-marker>
+      </template>
+</template>
+</google-map>
+
+
 </section>
 </iron-pages>
           
