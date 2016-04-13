@@ -20,13 +20,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- Place favicon.ico in the `app/` directory -->
 
   <!-- Chrome for Android theme color -->
-  <meta name="theme-color" content="#2E3AA1">
+  <meta name="theme-color" content="#3EAAF7">
 
   <!-- Web Application Manifest -->
   <link rel="manifest" href="manifest.json">
 
   <!-- Tile color for Win8 -->
-  <meta name="msapplication-TileColor" content="#3372DF">
+  <meta name="msapplication-TileColor" content="#3EAAF7">
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -44,6 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
+
   <!-- endbuild-->
 
   <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
@@ -56,12 +57,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- For shared styles, shared-styles.html import in elements.html -->
   <style is="custom-style" include="shared-styles"></style>
+  <style is="custom-style" include="app-theme"></style>
 
   <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-  <script type="text/javascript" src="atrament.js"></script>
+  <script type="text/javascript" src="scripts/atrament.js"></script>
 </head>
 
 <body unresolved>
+<firebase-auth auto-login="" location="https://geo-draw.firebaseio.com/" provider="anonymous" status-known=""></firebase-auth>
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
@@ -69,9 +72,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <div class="nav" drawer>
         <!-- Nav Content -->
-                   <iron-ajax id="get_filltext_ajax" auto
+      <iron-ajax id="get_filltext_ajax" auto
       url="//www.filltext.com/"
-      params='{"rows": "1000", "fname":"{firstName}", "lname": "{lastName}",
+      params='{"rows": "100", "fname":"{firstName}", "lname": "{lastName}",
        "city": "{city}", "business": "{business}", "index": "{index}"}'
       handle-as="json"
       loading="{{loading}}"
@@ -101,50 +104,68 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- Main Toolbar -->
         <paper-toolbar>
           <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-           <div class="title">Geo-Draw</div>
+
+           <div class="title"><img src="images/Geo-Draw-Logo-alt.svg" >Geo-Draw</div>
+
         </paper-toolbar>
 
         <!-- Main Content -->
         <div class="content">
+
+        <draw-fab></draw-fab>
           <iron-pages selected="0">
         <section id="draw">
-            <h1>draw</h1>
-            <paper-fab id="fab-add" icon="add"></paper-fab>
+            <form>
+      <button onclick="atrament.clear()">clear</button><br>
+      <label>Thickness</label><br>
+      <input type="range" min="1" max="40" oninput="atrament.weight = parseFloat(event.target.value);" value="2" step="0.1"/><br>
+      <label>Smoothing</label><br>
+      <input type="checkbox" onchange="atrament.smoothing = event.target.checked;" checked><br>
+      <label>Eraser</label>
+      <input type="checkbox" onchange="atrament.mode = event.target.checked ? 'erase' : 'draw';"><br>
+      <label>Colour</label>
+      <input type="color" onchange="atrament.color = event.target.value;"><br>
+      <label>Opacity</label><br>
+      <input type="range" min="0" max="1" onchange="atrament.opacity = parseFloat(event.target.value);" value="1" step="0.05"><br>
+      <button onclick="var dataURL = atrament.toImage(); window.open(dataURL);">save</button>
+    </form>           
     <canvas id="mySketcher" width="500px" height="500px"></canvas>
 
       <script>
     var atrament = atrament('canvas', window.innerWidth, window.innerHeight);
   </script>
-        <draw-pad></draw-pad>
+        <!-- <draw-pad></draw-pad> -->
 
         </section>
 
      <section id="map">
- <geo-location latitude="{{lat}}"
-               longitude="{{lng}}" 
+ <geo-location latitude="{{usr-lat}}"
+               longitude="{{usr-lng}}" 
                highAccuracy="true"></geo-location>
 
- <google-map latitude="[[lat]]" longitude="[[lng]]" zoom="15">
-   <google-map-marker latitude="[[lat]]" longitude="[[lng]]" icon="images/user-marker.png"></google-map-marker>
-   <google-map-marker latitude="50.786108" longitude=" -1.091166" icon="favicon.ico">
-  <img width="350px"src="images/drawstuff.png">
-</google-map-marker>
-<google-map-marker latitude="50.798505" longitude=" -1.098549" icon="favicon.ico">
-  <img width="350px"src="images/drawstuff.png">
-</google-map-marker>
-<google-map-marker latitude="50.799377" longitude=" -1.094519" icon="favicon.ico">
-  <img width="350px"src="images/drawstuff.png">
-</google-map-marker>
-<google-map-marker latitude="50.795846" longitude="  -1.107408" icon="favicon.ico">
-  <img width="350px"src="images/drawstuff.png">
-</google-map-marker>
-<google-map-marker latitude="50.801281" longitude="  -1.088726" icon="favicon.ico">
-  <img width="350px"src="images/drawstuff.png">
-</google-map-marker>
-<google-map-marker latitude="50.793310" longitude=" -1.098211" icon="favicon.ico">
-  <img width="350px"src="images/drawstuff.png">
-</google-map-marker>
- </google-map>
+ <google-map latitude="[[usr-lat]]" longitude="[[usr-lng]]" zoom="15" api-key="AIzaSyCUhXhNg12afBaQE-o6axSKM0D0bkR0DSc">
+
+   <google-map-marker latitude="[[usr-lat]]" longitude="[[usr-lng]]" icon="images/user-marker.png"></google-map-marker>
+
+
+
+<iron-ajax id="get_filltext_ajax_2" auto
+      url="//www.filltext.com/"
+      params='{"rows": "500",
+               "lat":"{randomDecimalRange|51.8to50.6}",
+               "long": "{randomDecimalRange|0.6to-3.3}"}'
+      handle-as="json"
+      loading="{{loading}}"
+      last-response="{{mark-pos}}">
+    </iron-ajax>
+
+<template is="dom-repeat" items="{{mark-pos}}" as="marker">
+      <google-map-marker latitude="{{marker.lat}}"
+                         longitude="{{marker.long}}"
+                         icon="favicon.ico">
+                         <img width="350px"src="images/drawstuff.png">
+      </google-map-marker>
+    </template>
 </section>
 </iron-pages>
           
@@ -159,8 +180,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
     </paper-toast>
 
-    <!-- Uncomment next block to enable Service Worker support (1/2) -->
-    <!--
+
     <paper-toast id="caching-complete"
                  duration="6000"
                  text="Caching complete! This app will work offline.">
@@ -175,7 +195,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                          cache-config-file="cache-config.json">
       </platinum-sw-cache>
     </platinum-sw-register>
-    -->
 
   </template>
 

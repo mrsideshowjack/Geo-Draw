@@ -288,7 +288,7 @@ class Atrament {
 	}
 
 	toImage() {
-		return this.canvas.toDataURL();
+		return this.canvas.toDataURL("image/jpeg");
 	}
 
 

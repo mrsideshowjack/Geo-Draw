@@ -1,0 +1,27 @@
+
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+<dom-module id="draw-fab">
+  <template>
+    <style type="text/css">
+      paper-fab {
+    z-index: 30;
+    position: absolute !important;
+    bottom: 0;
+    right: 0;
+    margin: 3em;
+}
+    </style>
+    <paper-fab id="fab-add" icon="add" on-tap="handleTap"></paper-fab>
+  </template>
+  <script>
+    Polymer({
+      is: 'draw-fab',
+      handleTap: function() {
+
+    var pages = document.querySelector('iron-pages');
+    pages.selectNext();
+      }
+    });
+  </script>
+</dom-module>
