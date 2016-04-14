@@ -37,7 +37,8 @@ iron-list {
     }
 }
 #draw{
-    background-color: #EEEEEE;
+    background-color: #ffffff;
+    /*background-image: url(../images/canvas-tex.gif);*/
 }
 
            

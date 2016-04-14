@@ -1,10 +1,10 @@
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
-<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
-<link rel="import" href="../bower_components/animations/fade-out-animation.html">
-<link rel="import" href="../bower_components/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
 
 
 <dom-module id="draw-control">
@@ -15,19 +15,17 @@
     }
     form > *{
     	display: block;
-      text-align: center;
-    	margin: 2em;
+    	margin: 1.5em;
     }
     form iron-label{
     	margin: 0;
-/*      padding-left: 25%;
-      padding-right: 25%;*/
+      text-align: center;
     }
     paper-button.eraser{
     	background-color: var(--paper-red-500);
     	color: white;
     }
-    paper-button.save1{
+    paper-button.save{
     	background-color: var(--paper-green-500);
     	color: white;
     }
@@ -35,21 +33,13 @@
       width: 60vw;
       max-width: 90vw;
     }
-/*    	form {
-                z-index: 3;
-                position: fixed;
-                top: 300;
-                left: 100;
-                background: rgba(0, 0, 0, 0.7);
-                padding: 1em;
-                color:white;
-            }
-            form * {
-                margin-bottom: 1em;
-            }
-*/    </style>
-	 <geo-location latitude="{{usr-lat}}"
-               longitude="{{usr-lng}}" 
+
+    iron-overlay-backdrop{
+      z-index: -1;
+    }
+    </style>
+	 <geo-location latitude="{{lat}}"
+               longitude="{{lng}}" 
                highAccuracy="true"></geo-location>
 
 	<h1>Controls</h1>
@@ -65,38 +55,52 @@
      <paper-checkbox onchange="atrament.smoothing = event.target.checked;" checked> Smoothing</paper-checkbox> 
 
 
-      <paper-checkbox onchange="atrament.mode = event.target.checked ? 'erase' : 'draw';" > Eraser</paper-checkbox>
+      <!-- <paper-checkbox onchange="atrament.mode = event.target.checked ? 'erase' : 'draw';" > Eraser</paper-checkbox> -->
+      <paper-checkbox onchange="atrament.color = event.target.checked ? '#FFFFFF' : '#00000'; console.log(atrament.color);" > Eraser</paper-checkbox>
 
 
-      <iron-label>Colour</iron-label>
-      <input type="color" onchange="atrament.color = event.target.value;"><br>
+      <!-- <iron-label>Colour</iron-label>
+      <input type="color" onchange=" var foo = event.target.value; console.log(foo);"><br> -->
+
+     <!--  <paper-color-input label="Colour "shape="square" type="hsl" onchange="atrament.color = this.valueAsHex();"></paper-color-input> -->
+
+       <paper-color-input label="Pick Colour "shape="square" type="hsl"></paper-color-input>
+      <paper-button raised on-tap="testTap">Set Colour</paper-button>
+
       <iron-label>Opacity</iron-label><br>
       <!-- https://github.com/David-Mulder/paper-color-picker -->
 
       <input type="range" min="0" max="1" onchange="atrament.opacity = parseFloat(event.target.value);" value="1" step="0.05"><br>
 
-      <paper-button raised onclick="var dataURL = atrament.toImage(); window.open(dataURL);" class="save1">save and open</paper-button><br>
+      <paper-button raised onclick="var dataURL = atrament.toImage(); window.open(dataURL);" class="save">save and open</paper-button><br>
 
       <paper-button raised on-tap="saveTap">save dialog</paper-button>
 </form>
 
+      
+      <firebase-document
+      location="https://geo-draw.firebaseio.com/posts"
+      data="{{a}}"></firebase-document>
+
 
       <paper-dialog entry-animation="scale-up-animation"
                     exit-animation="fade-out-animation"
-                    modal="true">
+                    modal="true"
+                    id="save-dialog">
         <h2>Save</h2>
-        <form is="iron-form" id="save-form" method="post" action="/form/handler">
+
+        <form is="iron-form" id="save-form" action="">
 
         <iron-image src="dataURL" preload sizing="contain" placeholer="../images/drawstuff.png"></iron-image>
 
-          <paper-input label="Title" maxlength="15"></paper-input>
-          <paper-textarea label="Description" char-counter maxlength="100"></paper-textarea>
-          <paper-input disabled label="long"  value="[[usr-lng]]"></paper-input>
-          <paper-input disabled label="lat"  value="[[usr-lat]]"></paper-input>
+          <paper-input label="Title" maxlength="15" value="{{title}}"></paper-input>
+          <paper-textarea label="Description" char-counter maxlength="100" value="{{description}}"></paper-textarea>
+          <paper-input disabled label="long"  value="[[lng]]"></paper-input>
+          <paper-input disabled label="lat"  value="[[lat]]"></paper-input>
         </form>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button dialog-confirm>Accept</paper-button>
+        <paper-button raised class="save" dialog-confirm  type="submit" on-tap="sendPost">Accept</paper-button>
       </div>
       </paper-dialog>
 
@@ -105,11 +109,47 @@
   <script>
     Polymer({
       is: 'draw-control',
-     saveTap: function(){
-        var dialog = document.querySelector('paper-dialog');
-        var dataURL = atrament.toImage();
-        dialog.open();
+      properties: {
+        
+      title: {
+        type: String,
+        value: '',
+      },
+      description: {
+        type: String,
+        value: '',
+      },
+      lat: {
+        type: String,
+        value: '',
+      },
+      lng: {
+        type: String,
+        value: '',
       }
+      },
+      testTap: function(){
+        var e = document.querySelector('paper-color-input');
+      console.log(e.valueAsHex);
+      atrament.color = e.valueAsHex;
+      },
+     saveTap: function(){
+        var dialog = document.querySelector('#save-dialog');
+        // var dataURL = atrament.toImage();
+        dialog.open();
+      },
+      sendPost: function(){
+        console.log('pepe');
+        var sendFirePush = new Firebase('https://geo-draw.firebaseio.com/posts');
+        sendFirePush.push({ //'user_id': '',
+                           'title': this.title,
+                            'description': this.description,
+                             'image': atrament.toImage(),
+                              'lat': this.lat,
+                               'lng': this.lng
+                                });
+      }
+
     });
   </script>
 </dom-module>

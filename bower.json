@@ -1,17 +1,39 @@
 {
-  "name": "polymer-starter-kit",
+  "name": "geo-draw",
   "private": true,
   "dependencies": {
+    "geo-location": "^1.0.3",
     "iron-elements": "PolymerElements/iron-elements#^1.0.0",
     "neon-elements": "PolymerElements/neon-elements#^1.0.0",
     "page": "visionmedia/page.js#~1.6.4",
     "paper-elements": "PolymerElements/paper-elements#^1.0.1",
     "platinum-elements": "PolymerElements/platinum-elements#^1.1.0",
     "polymer": "Polymer/polymer#^1.2.0",
-    "firebase-element": "GoogleWebComponents/firebase-element#^1.0.12"
+    "google-map": "GoogleWebComponents/google-map#^1.1.10",
+    "firebase-element": "GoogleWebComponents/firebase-element#^1.0.12",
+    "paper-color-picker": "^0.9.2"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
   },
-  "ignore": []
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "homepage": "https://github.com/mrsideshowjack/Geo-Draw",
+  "authors": [
+    "Jack Mason <mrsideshowjack@gmail.com>"
+  ],
+  "description": "location based drawing",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "resolutions": {
+    "paper-styles": "^1.1.0",
+    "web-animations-js": "2.1.4"
+  }
 }

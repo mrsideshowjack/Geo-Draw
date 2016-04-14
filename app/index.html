@@ -15,7 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="generator" content="Geo-Draw" />
+  <meta name="generator" content="Geo-Draw"/>
   <title>Geo-Draw</title>
   <!-- Place favicon.ico in the `app/` directory -->
 
@@ -71,7 +71,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="nav" drawer>
       <iron-pages selected="0" id="iron-pages-nav">
 <section>
-      <iron-ajax id="get_filltext_ajax" auto
+
+  <h1>work pls</h1>
+  <template is="dom-bind">
+    <firebase-collection
+      location="https://geo-draw.firebaseio.com/posts"
+      data="{{posts}}"></firebase-collection>
+
+      <template is="dom-repeat" items="{{posts}}" as="posts">
+      <paper-material elevation="1">
+      <p>firebaseKey:[[posts.__firebaseKey__]]</p>
+      <p>title:{{posts.title}}</p>
+      <p>description:{{posts.description}}</p>
+      <p>lat:{{posts.lat}}</p>
+      <p>lng:{{posts.lng}}</p>
+      <img width="100%"src="{{posts.image}}">
+      </paper-material>
+      </template>
+</template>
+      <!-- <iron-ajax id="get_filltext_ajax" auto
       url="//www.filltext.com/"
       params='{"rows": "100", "fname":"{firstName}", "lname": "{lastName}",
        "city": "{city}", "business": "{business}", "index": "{index}"}'
@@ -95,7 +113,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </paper-material>
           </div>
         </template>
-      </iron-list>
+      </iron-list> -->
       </section>
 
       <section>
@@ -130,57 +148,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <script>
     var atrament = atrament('canvas', window.innerWidth, window.innerHeight);
   </script>
-        <!-- <draw-pad></draw-pad> -->
-
         </section>
 
      <section id="map">
- <geo-location latitude="{{usr-lat}}"
-               longitude="{{usr-lng}}" 
-               highAccuracy="true"></geo-location>
-
- <google-map latitude="[[usr-lat]]" longitude="[[usr-lng]]" zoom="15" api-key="AIzaSyCUhXhNg12afBaQE-o6axSKM0D0bkR0DSc">
-
-   <google-map-marker latitude="[[usr-lat]]" longitude="[[usr-lng]]" icon="images/user-marker.png"></google-map-marker>
-
-
-<!-- 
-<iron-ajax id="get_filltext_ajax_2" auto
-      url="//www.filltext.com/"
-      params='{"rows": "500",
-               "lat":"{randomDecimalRange|51.8to50.6}",
-               "long": "{randomDecimalRange|0.6to-3.3}"}'
-      handle-as="json"
-      loading="{{loading}}"
-      last-response="{{mark-pos}}">
-    </iron-ajax>
-
-<template is="dom-repeat" items="{{mark-pos}}" as="marker">
-      <google-map-marker latitude="{{marker.lat}}"
-                         longitude="{{marker.long}}"
-                         icon="favicon.ico">
-                         <img width="350px"src="images/drawstuff.png">
-      </google-map-marker>
-    </template> -->
-
-    <template is="dom-bind">
-    <firebase-collection
-      location="https://geo-draw.firebaseio.com/posts"
-      data="{{posts}}"></firebase-collection>
-
-      <template is="dom-repeat" items="{{posts}}" as="posts">
-      <google-map-marker latitude="{{posts.lat}}"
-                         longitude="{{posts.long}}"
-                         icon="favicon.ico">
-                         <h4>[[posts.__firebaseKey__]]</h4>
-                         <img width="350px"src="images/drawstuff.png">
-      </google-map-marker>
-      </template>
-</template>
-</google-map>
-
-
-</section>
+     <draw-map></draw-map>
+  </section>
 </iron-pages>
           
 

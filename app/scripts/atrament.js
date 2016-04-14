@@ -162,6 +162,10 @@ class Atrament {
 		this.context.lineCap = 'round';
 		this.context.lineJoin = 'round';
 
+		//set white background
+	    this.context.fillStyle = 'white';
+	    this.context.fillRect(0,0,this.context.canvas.width,this.context.canvas.height);
+
 		//set drawing params
 		this.SMOOTHING_INIT = 0.85;
 		this.WEIGHT_SPREAD = 10;
@@ -284,11 +288,14 @@ class Atrament {
 		}
 		else {
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			//set white background
+	    this.context.fillStyle = 'white';
+	    this.context.fillRect(0,0,this.context.canvas.width,this.context.canvas.height);
 		}
 	}
 
 	toImage() {
-		return this.canvas.toDataURL("image/jpeg");
+		return this.canvas.toDataURL("image/jpeg", 0.5);
 	}
 
 

@@ -1,0 +1,68 @@
+<link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../bower_components/google-map/google-map-marker.html">
+
+<link rel="import" href="../../bower_components/geo-location/geo-location.html">
+
+
+<dom-module id="draw-map">
+  <template>
+    <style type="text/css">
+
+    </style>
+
+     <geo-location latitude="{{usr-lat}}"
+               longitude="{{usr-lng}}" 
+               highAccuracy="true"></geo-location>
+
+ <google-map latitude="[[usr-lat]]" longitude="[[usr-lng]]" zoom="3" api-key="AIzaSyCUhXhNg12afBaQE-o6axSKM0D0bkR0DSc">
+
+   <google-map-marker latitude="[[usr-lat]]" longitude="[[usr-lng]]" icon="images/user-marker.png"></google-map-marker>
+
+
+<!-- 
+<iron-ajax id="get_filltext_ajax_2" auto
+      url="//www.filltext.com/"
+      params='{"rows": "500",
+               "lat":"{randomDecimalRange|51.8to50.6}",
+               "long": "{randomDecimalRange|0.6to-3.3}"}'
+      handle-as="json"
+      loading="{{loading}}"
+      last-response="{{mark-pos}}">
+    </iron-ajax>
+
+<template is="dom-repeat" items="{{mark-pos}}" as="marker">
+      <google-map-marker latitude="{{marker.lat}}"
+                         longitude="{{marker.long}}"
+                         icon="favicon.ico">
+                         <img width="350px"src="images/drawstuff.png">
+      </google-map-marker>
+    </template> -->
+
+    <template is="dom-bind">
+    <firebase-collection
+      location="https://geo-draw.firebaseio.com/posts"
+      data="{{posts}}"></firebase-collection>
+
+      <template is="dom-repeat" items="{{posts}}" as="posts">
+      <google-map-marker latitude="{{posts.lat}}"
+                         longitude="{{posts.lng}}"
+                         icon="favicon.ico">
+                         <h4>[[posts.__firebaseKey__]]</h4>
+                          <img width="100%"src="{{posts.image}}">
+      </google-map-marker>
+      </template>
+</template>
+</google-map>
+
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'draw-map',
+      ready: function() {
+        
+      }
+    });
+  </script>
+</dom-module>
