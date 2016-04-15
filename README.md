@@ -1,8 +1,10 @@
-![](/app/images/geo-draw-logo.png)
+![](app/images/Geo-Draw-Logo.png)
 # Geo-Draw
 
 > Geo location based drawing app.
 
+## Demo
+See deployed live [demo](https://geo-draw.firebaseapp.com/)
 
 ## Installation
 
