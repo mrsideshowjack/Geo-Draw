@@ -1,4 +1,4 @@
-![](app/images/Geo-Draw-Logo.png)
+![](app/images/touch/chrome-splashscreen-icon-384x384.png)
 # Geo-Draw
 
 > Geo location based drawing app.
@@ -6,14 +6,12 @@
 ## Demo
 See deployed live [demo](https://geo-draw.firebaseapp.com/)
 
-## Installation
-
 ## Usage
 ### Install
 1. git clone `git clone`
 2. install (Node.js) `npm install -g gulp bower && npm install && bower install`
-### Development workflow
 
+### Development workflow
 #### Serve / watch
 
 ```sh
@@ -33,14 +31,14 @@ gulp test:local
 ```sh
 gulp
 ```
+Build and optimize the current project, ready for deployment. This includes vulcanization, image, script, stylesheet and HTML optimization and minification.
 
 ### Deploy
 
-### Firebase
+#### Firebase
 
 [See detail recipe](https://github.com/PolymerElements/polymer-starter-kit/blob/master/docs/deploy-to-firebase-pretty-urls.md)
 
-Build and optimize the current project, ready for deployment. This includes vulcanization, image, script, stylesheet and HTML optimization and minification.
 
 ## Contributing
 1. Fork it!
