@@ -1,3 +1,4 @@
+'use strict';
 //make a class for Point
 class Point {
 	constructor(x, y) {

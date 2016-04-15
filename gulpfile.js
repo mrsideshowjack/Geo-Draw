@@ -163,28 +163,29 @@ gulp.task('html', function() {
 });
 
 // Vulcanize granular configuration
-// gulp.task('vulcanize', function() {
-//   return gulp.src('app/elements/elements.html')
-//     .pipe($.vulcanize({
-//       stripComments: true,
-//       inlineCss: true,
-//       inlineScripts: true
-//     }))
-//     .pipe(gulp.dest(dist('elements')))
-//     .pipe($.size({title: 'vulcanize'}));
-// });
-
-gulp.task('vulcanize', function () {
-  var DEST_DIR = 'dist/elements';
-
-  return gulp.src('dist/elements/elements.vulcanized.html')
+gulp.task('vulcanize', function() {
+  return gulp.src('app/elements/elements.html')
     .pipe($.vulcanize({
-      dest: DEST_DIR,
-      stripComments: true
+      stripComments: true,
+      //excludes: ['scripts/atrament.js'],
+      //inlineCss: true,
+      inlineScripts: true
     }))
-    .pipe(gulp.dest('dist/elements'))
+    .pipe(gulp.dest(dist('elements')))
     .pipe($.size({title: 'vulcanize'}));
 });
+
+// gulp.task('vulcanize', function () {
+//   var DEST_DIR = 'dist/elements';
+
+//   return gulp.src('dist/elements/elements.vulcanized.html')
+//     .pipe($.vulcanize({
+//       dest: DEST_DIR,
+//       stripComments: true
+//     }))
+//     .pipe(gulp.dest('dist/elements'))
+//     .pipe($.size({title: 'vulcanize'}));
+// });
 
 // Generate config data for the <sw-precache-cache> element.
 // This include a list of files that should be precached, as well as a (hopefully unique) cache
@@ -286,7 +287,7 @@ gulp.task('default', ['clean'], function(cb) {
     ['ensureFiles', 'copy', 'styles'],
     'elements',
     ['images', 'fonts', 'html'],
-    'vulcanize', // 'cache-config',
+    'vulcanize', 'cache-config',
     cb);
 });
 
