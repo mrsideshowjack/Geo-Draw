@@ -66,28 +66,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
-    <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
+    <paper-drawer-panel id="drawerPanel" disableSwipe responsive-width="1280px" drawer-width="20vw">
 
-      <div class="nav" drawer>
+      <div class="nav" drawer >
       <iron-pages selected="0" id="iron-pages-nav">
 <section>
 
-  <h1>work pls</h1>
   <template is="dom-bind">
     <firebase-collection
       location="https://geo-draw.firebaseio.com/posts"
       data="{{posts}}"></firebase-collection>
 
       <template is="dom-repeat" items="{{posts}}" as="posts">
-      <paper-material elevation="1">
+      <paper-card heading="{{posts.title}}" image="{{posts.image}}" class="nav-card">
+      <div class="card-content">
+      <p>{{posts.description}}</p>
+      <p style="font-size: 0.8em;">lat:{{posts.lat}} lng:{{posts.lng}}</p>
+      </div>
+      <div class="card-actions">
+        <paper-button>Share</paper-button>
+        <paper-button>Explore!</paper-button>
+      </div>
+    </paper-card>
+<!--       <paper-material elevation="1">
       <p>firebaseKey:[[posts.__firebaseKey__]]</p>
       <p>title:{{posts.title}}</p>
       <p>description:{{posts.description}}</p>
       <p>lat:{{posts.lat}}</p>
       <p>lng:{{posts.lng}}</p>
       <img width="100%"src="{{posts.image}}">
-      </paper-material>
-      </template>
+      </paper-material>-->
+      </template> 
 </template>
       <!-- <iron-ajax id="get_filltext_ajax" auto
       url="//www.filltext.com/"
@@ -132,7 +141,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-toolbar>
           <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
 
-           <div class="title"><img src="images/Geo-Draw-Logo-alt.svg" ><h1>Geo-Draw</h1></div>
+           <div class="title"><h1>Geo-Draw</h1></div>
+
+           <paper-menu-button horizontal-offset="-40">
+          <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+          <paper-menu class="dropdown-content">
+            <paper-item>FAQ</paper-item>
+            <paper-item>About</paper-item>
+            <paper-item>Settings</paper-item>
+            <a href="https://github.com/mrsideshowjack/Geo-Draw">
+            <paper-item>Github</paper-item>
+            </a>
+          </paper-menu>
+        </paper-menu-button>
 
         </paper-toolbar>
 

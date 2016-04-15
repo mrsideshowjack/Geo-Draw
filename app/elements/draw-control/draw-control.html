@@ -37,6 +37,9 @@
     iron-overlay-backdrop{
       z-index: -1;
     }
+    paper-slider{
+      width: 100%;
+    }
     </style>
 	 <geo-location latitude="{{lat}}"
                longitude="{{lng}}" 
@@ -47,34 +50,25 @@
     <form is="iron-form" id="control-form">
       <paper-button raised onclick="atrament.clear()" class="eraser">clear</paper-button><br>
 
-      <iron-label>Thickness</iron-label><br>
-    <!--   <paper-slider min="1" max="40" oninput="atrament.weight = parseFloat(event.target.value);" value="2"></paper-slider> -->
-      <input type="range" min="1" max="40" oninput="atrament.weight = parseFloat(event.target.value);" value="2" step="0.1"/><br>
+      <iron-label>Thickness
+      <paper-slider pin min="1" max="100" value="{{sliderWeightValue}}" on-change="sliderWeightChange"></paper-slider>
+      </iron-label>
 
      
      <paper-checkbox onchange="atrament.smoothing = event.target.checked;" checked> Smoothing</paper-checkbox> 
-
-
-      <!-- <paper-checkbox onchange="atrament.mode = event.target.checked ? 'erase' : 'draw';" > Eraser</paper-checkbox> -->
       <paper-checkbox onchange="atrament.color = event.target.checked ? '#FFFFFF' : '#00000'; console.log(atrament.color);" > Eraser</paper-checkbox>
 
-
-      <!-- <iron-label>Colour</iron-label>
-      <input type="color" onchange=" var foo = event.target.value; console.log(foo);"><br> -->
-
-     <!--  <paper-color-input label="Colour "shape="square" type="hsl" onchange="atrament.color = this.valueAsHex();"></paper-color-input> -->
-
-       <paper-color-input label="Pick Colour "shape="square" type="hsl"></paper-color-input>
+       <paper-color-input label="Pick Colour "shape="circle" type="hsv" ></paper-color-input>
       <paper-button raised on-tap="testTap">Set Colour</paper-button>
-
-      <iron-label>Opacity</iron-label><br>
       <!-- https://github.com/David-Mulder/paper-color-picker -->
 
-      <input type="range" min="0" max="1" onchange="atrament.opacity = parseFloat(event.target.value);" value="1" step="0.05"><br>
+      <iron-label>Opacity
+      <paper-slider pin min="0.1" max="1" step="0.05" value="{{sliderOpacityValue}}" on-change="sliderOpacityChange"></paper-slider>
+      </iron-label>
 
-      <paper-button raised onclick="var dataURL = atrament.toImage(); window.open(dataURL);" class="save">save and open</paper-button><br>
+      <paper-button raised on-tap="saveTap" class="save">Post to map</paper-button>
+      <paper-button raised onclick="var dataURL = atrament.toImage(); window.open(dataURL);" >save Localy</paper-button><br>
 
-      <paper-button raised on-tap="saveTap">save dialog</paper-button>
 </form>
 
       
@@ -85,7 +79,6 @@
 
       <paper-dialog entry-animation="scale-up-animation"
                     exit-animation="fade-out-animation"
-                    modal="true"
                     id="save-dialog">
         <h2>Save</h2>
 
@@ -94,9 +87,8 @@
         <iron-image src="dataURL" preload sizing="contain" placeholer="../images/drawstuff.png"></iron-image>
 
           <paper-input label="Title" maxlength="15" value="{{title}}"></paper-input>
-          <paper-textarea label="Description" char-counter maxlength="100" value="{{description}}"></paper-textarea>
-          <paper-input disabled label="long"  value="[[lng]]"></paper-input>
-          <paper-input disabled label="lat"  value="[[lat]]"></paper-input>
+          <paper-textarea label="Description" char-counter maxlength="200" value="{{description}}"></paper-textarea>
+          <p>lng: [[lng]] lat: [[lat]]</p>
         </form>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
@@ -110,7 +102,7 @@
     Polymer({
       is: 'draw-control',
       properties: {
-        
+      
       title: {
         type: String,
         value: '',
@@ -132,6 +124,13 @@
         var e = document.querySelector('paper-color-input');
       console.log(e.valueAsHex);
       atrament.color = e.valueAsHex;
+      },
+      sliderWeightChange: function () {
+         atrament.weight= this.sliderWeightValue;
+      },
+      sliderOpacityChange: function () {
+        console.log(this.sliderOpacityValue);
+         atrament.opacity= this.sliderOpacityValue;
       },
      saveTap: function(){
         var dialog = document.querySelector('#save-dialog');
