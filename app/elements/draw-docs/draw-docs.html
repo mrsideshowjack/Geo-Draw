@@ -1,0 +1,114 @@
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<dom-module id="draw-docs">
+  <template>
+    <style type="text/css">
+    a, a:visited{
+    	color: var(--primary-text-color);
+    	text-decoration: none;
+    }
+    a:hover{
+    	color: var(--light-accent-color);
+    	text-decoration: underline;
+    }
+    #wrapper{
+    	height: 100%;
+    	background: var(--primary-color);
+    }
+    #geo-draw-logo{
+    	padding: 2em;
+    	float: right;
+    }
+    paper-material{
+    	border-radius: 2px;
+    height: 100%;
+    padding: 16px 0 16px 0;
+    width: calc(98.66% - 16px);
+    /*margin: 16px auto;*/
+    background: white;
+	}
+	xmp{
+		margin: 0;
+		background: #eee;
+	}
+	@media (min-width: 601px){
+	paper-material {
+	    width: calc(98% - 46px);
+	    margin-bottom: 32px;
+	    padding-left: 30px;
+	    padding-right: 30px;
+		}
+	}
+    </style>
+    
+    <section id="wrapper">
+	<paper-material elevation="2" id="bar">
+	
+	<iron-image src="../../images/Geo-Draw-Logo.png" style="width:300px; height:300px;" id="geo-draw-logo" sizing="contain" ></iron-image>
+
+	<h2>About</h2>
+	<p>Geo-Draw is a geo location based drawing webapp.</p>
+	<h3>Technologies</h3>
+	<p>List of technologies used and 3rd party code.</p>
+	<ul>
+	  <li><a href="">Google's Polymer 1.0 Framework.</a></li>
+	  <li><a href="">Polymer Starter Kit</a></li>
+	  <li><a href="">Atriment.js.</a></li>
+	  <li><a href="">Firebase realtime noSQL database.</a></li>
+	  <li><a href="">David-Mulder's paper-color-picker element.</a></li>
+	  <li><a href="">Ebidel's geo-location element.</a></li>
+	</ul>
+	<h3>About Polymer</h3>
+	<p>Polymer is a JavaScript framework made by Google, for building Web Components, which, at their most basic level, are a way to package up styling and functionality into new, custom HTML tags that can be easily reused or shared with others.</p>
+	<h3>About Firebase</h3>
+	<p>Fire base Store&ldquo;s and syncs data with their NoSQL cloud database. Data is stored as JSON, synced to all connected clients in realtime, and available when the app goes offline. Firebase also provides the hosting for this project which you can see at <a href="https://geo-draw.firebaseapp.com/">geo-draw.firebaseapp.com</a></p>
+	<br><br><br>
+	</paper-material>
+	<paper-material elevation="2">
+	<h2>Final-version Specification</h2>
+	<h3>Polymer and Web components</h3>
+
+	<p>I decided to use Polymer for this project, as it was designed to be used to create efficient webapps; I also decided to use this because Polymer and web components are new, and I believe also the future of how webapps will be made in the not so distant future.</p>
+
+	<p>Web Components are a new and powerful new web of coding webapps, Web Components are a collection of standards which are working their way through the W3C and landing in browsers right now. In a nutshell, they allow you to bundle markup and styles into custom HTML elements. The custom elements and HTML imports that web components provide make sharing and publishing elements really easy. I am using two custom elements made by other people on this site; David-Mulder's paper-color-picker element And Ebidel's geo-location element. These where just downlaoded with npm and just imported into my elements.HTML and where ready to use.</p>
+
+	<p>Polymer itself has some really powerful features such as Data binding. You can use a data binding to bind a property or sub-property of a custom element to a property or attribute of an element in its local DOM. For example this simple two way databinding listens for the "input" event and sets the greeting title text to &#60;input&#62;.value:</p>
+
+  	<xmp>
+    <h2 class="page-title">{{greeting}}</h2>
+    <span>Update text to change the greeting.</span>
+    <!-- Listens for "input" event and sets greeting to <input>.value -->
+    <input value="{{greeting::input}}">
+  	</xmp>
+
+  	<h3>Firebase</h3>
+
+  	<p>I used Firebase for the entirety of this projects 'back end', as I felt that it was the most appropriate method for the task and making it with a more traditional method of PHP and SQL would of decreased the capabilities of the webapp, such as the realtime capabilities. For example, if you watch the map page, you can see other user's posts drop in, in real time, with a marker on the map.</p>
+  	<p>This is what the data structure of geo draw looks like in Firebase:</p>
+  	<iron-image src="../../images/firebase.png" preload sizing="cover" style="width:300px; height:300px;"></iron-image>
+
+
+	</paper-material>
+	<paper-material elevation="2">
+	<h2>Whole Project Report</h2>
+	<h3>Lifecycle</h3>
+	<p>A spiral lifecycle model was chosen to be used during development including various prototypes and risk analysis. However during once development had progressed these element where highly overlooked as they would take away time that could otherwise be used to develop the product further. Additionally the life cycle model cannot be followed once a major, project resetting, setback has occurred.</p>
+	<h3>Hold-ups</h3>
+	<p>This project had a major setback; this occurred due to the corruption of a hard drive and the total loss of months of work, due to this I have had to take shortcuts in developing the app back to this state with the amount of time left remaining. For example I originally developed my own HTML5 canvas drawing script, but to speed up development time, I have now used atriment.js for this. Additionally because of this, the project is now on Github to prevent this happening again.</p>
+	<h3>Lessons</h3>
+	<p>The one of the main lessons learn during development was redundancy, and how important it is to have backups of code, or something as simple as putting it on github. Another key lesson of this project is to research what is and is not capable before starting the project. For example I was originally planning to create a system of querying the list of posts with hashtags on user’s posts and a search field above. However it was only during development I discovered that creating a search field with Firebase is more complicated than I originally thought, and would not of been possible to create, especially given the already narrower time constraints.</p>
+	<p>However, because of the issue of starting the project again from scratch, I was able to use skills and knowledge already gained during the production of the first version and carry them onto the new version. I think given more time to develop this version, it would be better in all aspects than the one proceeding it.</p>
+	</paper-material>
+	</section>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'draw-docs',
+
+
+    });
+  </script>
+</dom-module>
+
+
+

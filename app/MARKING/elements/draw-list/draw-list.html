@@ -1,0 +1,60 @@
+<dom-module id="draw-list">
+  <template>
+    <style type="text/css">
+    #reportBtn:hover{
+      color: var(--paper-red-500);
+    }
+    #goBtn:hover{
+      color: var(--accent-color);
+    }
+    </style>
+    <firebase-collection id="ref" order-by-child="date" limit-to-last="15" location="https://geo-draw.firebaseio.com/posts" data="{{posts}}"></firebase-collection>
+
+    <!-- <paper-spinner active></paper-spinner> -->
+    <paper-toolbar class="medium-tall">
+
+    </paper-toolbar>
+      <template is="dom-repeat" items="{{posts}}" as="post">
+          <paper-card heading="{{post.title}}" image="{{post.image}}" class="nav-card">
+              <div class="card-content">
+                  <p >{{post.description}}</p>
+                  <p style="font-size: 0.8em;">lat:<span id="lat">{{post.lat}}</span> lng: <span id="lng">{{post.lng}}</span></p>
+              </div>
+              <div class="card-actions">
+
+                  <paper-button  id="goBtn" on-tap="shareTap">
+                  <iron-icon icon="maps:place"></iron-icon>
+                  go to
+                  </paper-button>
+
+                  <paper-button id="reportBtn" on-tap="reportTap">
+                      <iron-icon icon="report-problem"></iron-icon>
+                      report
+
+                  </paper-button>
+              </div>
+          </paper-card>
+          <paper-toast id="toast" text="The post  &ldquo;{{post.title}}&ldquo; been reported to an admin."></paper-toast>
+      </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'draw-list',
+
+      reportTap: function(e){
+        var card = document.querySelector('.nav-card');
+        var toast = document.querySelector('#toast');
+        toast.open();
+        card.classList.add('hidden');
+      },
+      shareTap:function(post){
+        var map = document.querySelector('google-map');
+        var lat = document.querySelector('#lat').innerHTML;
+        var lng = document.querySelector('#lng').innerHTML;
+        map.latitude = lat;
+        map.longitude = lng;
+        map.zoom = 16;
+      }
+    });
+  </script>
+</dom-module>

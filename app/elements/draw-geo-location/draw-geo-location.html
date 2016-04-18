@@ -1,0 +1,61 @@
+<link rel="import" href="../../bower_components/geo-location/geo-location.html">
+
+
+<dom-module id="draw-geo-location" attributes="usrLat">
+  <template>
+    <style type="text/css">
+
+    </style>
+
+    <geo-location 	latitude="{{usrLat}}"
+               		longitude="{{usrLng}}" 
+               		high-accuracy></geo-location>
+    <h3>lat [[usrLat]], lng [[usrLng]]</h3>
+    
+  </template>
+  <script>
+    Polymer({
+      is: 'draw-geo-location',
+
+      properties: {
+      	usrLat:{
+      		type: Number,
+      		value: 0,
+      		notify: true,
+      		observer: "_usrLatChanged"
+      	}
+      },
+      _usrLatChanged: function(data){
+      	console.log(data);
+        this.value = data;
+        console.log(this.value);
+        return this.value;
+      	
+      }
+
+    });
+    
+    // Polymer({
+    //         is: 'app-data',
+    //         properties: {
+    //             data: {
+    //                 type: Object,
+    //                 value: commondata,
+    //                 notify: true,
+    //                 readonly: true
+    //             }
+    //         },
+    //         created: function () {
+    //             instances.push(this);
+    //         },
+
+    //         detached: function () {
+    //             var i = instances.indexOf(this);
+    //             if (i >= 0) {
+    //                 instances.splice(i, 1);
+    //             }
+    //         }
+    //     });
+  </script>
+</dom-module>
+

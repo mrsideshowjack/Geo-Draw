@@ -1,3 +1,6 @@
+paper-header-panel { 
+    height: 100% 
+}
 #map {
     height: calc(100vh - 64px);
     width: 100%;
@@ -19,9 +22,9 @@ body {
     padding-right: 10px;
     display: inline-block;
 }
-.drawer{
-	background-color: pink;
-	/*width: 20vw !important;*/
+#drawer{
+	width: 20vw;
+    overflow: scroll;
 }
 iron-pages{
     padding: 0  !important;
@@ -30,116 +33,41 @@ iron-pages{
 }
 iron-list {
     height: 100%;
-    --iron-list-items-container: {
-        height: 80px;
-        padding: 16px;
-        margin: auto;
-    }
+
 }
 #draw{
     background-color: #ffffff;
+    max-height: calc(100vh - 64px);
     /*background-image: url(../images/canvas-tex.gif);*/
 }
 .nav{
     padding:0; 
-    overflow-x: hidden;
-    overflow-y: scroll;
 }
 .nav-card{
     width: calc(100% - 2em);
     margin: 1em 0px 1em 1em;
     word-wrap: break-word;
 }
-           
-/*
-iron-pages {
-    padding: 0!important
+#about{
+    position: relative;
 }
-#left
-paper-scroll-header-panel {
-    height: 100%;
-    width: 35vw
-}
-paper-toolbar {
-    width: 35vw;
-    height: 190px
-}
-paper-card {
-    width: 90%;
-    margin: 1em;
-    padding: 16px
-}
-#fab-draw {
-    position: fixed;
-    margin: 30px;
-    bottom: 0;
-    left: 24vw;
-    z-index: 2
-}
-.row {
-    height: 80px;
-    padding: 16px
-}
-#draw,
-.tab {
-    padding: 60px
-}
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 16px;
-    background-color: #00BCD4
-}
-.tab,
-canvas {
-    border: 12px #000;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .22)
-}
-canvas {
-    cursor: crosshair
-}
-.tab {
-    list-style: none;
+.hidden{
     display: none;
-    height: 500px;
-    width: 500px;
-    margin: 60px
 }
-#tools {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap
+#blueBox{
+    position: fixed;
+    top: 0;
+    content: '';
+    width: 20vw;
+    height: 100vh;
+    background: #3EAAF7;
+    /*overflow: hidden;*/
 }
-.buttons {
-    margin: 60px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap
-}
-.toolbtn {
-    background: #212121;
-    margin: 20px!important;
-    width: 150px!important
-}*/
+
+ @media (min-width: 601px) {
+
+    #drawer{
+    width: 40vw;
+    overflow: scroll;
+    }
+  }

@@ -167,7 +167,7 @@ gulp.task('vulcanize', function() {
   return gulp.src('app/elements/elements.html')
     .pipe($.vulcanize({
       stripComments: true,
-      //excludes: ['scripts/atrament.js'],
+      excludes: ['scripts/atrament.js'],
       //inlineCss: true,
       inlineScripts: true
     }))

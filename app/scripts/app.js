@@ -31,7 +31,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
-    console.log('Our app is ready to rock!');
   });
 
   // See https://github.com/Polymer/polymer/issues/1381
@@ -45,7 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // is shrunk to nothing on condensing.
   window.addEventListener('paper-header-transform', function(e) {
     var appName = Polymer.dom(document).querySelector('#mainToolbar .app-name');
-    var middleContainer = Polymer.dom(document).querySelector('#mainToolbar .middle-container');
+    //var middleContainer = Polymer.dom(document).querySelector('#mainToolbar .middle-container');
     var bottomContainer = Polymer.dom(document).querySelector('#mainToolbar .bottom-container');
     var detail = e.detail;
     var heightDiff = detail.height - detail.condensedHeight;
@@ -58,7 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var scaleBottom = 1 - yRatio;
 
     // Move/translate middleContainer
-    Polymer.Base.transform('translate3d(0,' + yRatio * 100 + '%,0)', middleContainer);
+   // Polymer.Base.transform('translate3d(0,' + yRatio * 100 + '%,0)', middleContainer);
 
     // Scale bottomContainer and bottom sub title to nothing and back
     Polymer.Base.transform('scale(' + scaleBottom + ') translateZ(0)', bottomContainer);

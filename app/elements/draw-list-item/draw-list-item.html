@@ -1,0 +1,49 @@
+<dom-module id="draw-list-item">
+  <template>
+    <style type="text/css">
+    #reportBtn:hover{
+      color: var(--paper-red-500);
+    }
+
+    </style>
+          <paper-card heading="{{post.title}}" image="{{post.image}}" class="nav-card">
+              <div class="card-content">
+                  <p >{{post.description}}</p>
+                  <p style="font-size: 0.8em;">lat:<span id="lat">{{post.lat}}</span> lng:{{post.lng}}</p>
+              </div>
+              <div class="card-actions">
+                  <paper-button on-tap="shareTap">Share</paper-button>
+                  <paper-button id="reportBtn" on-tap="reportTap">
+                      <iron-icon icon="report-problem"></iron-icon>
+                      report
+                  </paper-button>
+              </div>
+          </paper-card>
+          <paper-toast id="toast" text="The post  &ldquo;{{post.title}}&ldquo; been reported to an admin."></paper-toast>
+  </template>
+  <script>
+    Polymer({
+      is: 'draw-list-item',
+
+      properties: {
+        'post': Object
+      },
+      reportTap: function(e){
+        var toast = document.querySelector('#toast');
+        toast.open();
+//var card = document.querySelector('.nav-card');
+         // card.classList.add('hidden');
+       // var date = document.querySelector('#card-date').innderHTML;
+     // console.log(date);
+        // return this.date;
+      },
+      shareTap:function(posts){
+        this.linkPaths('posts.lat', 'lat');
+        var map = document.querySelector('google-map');
+        var lat = document.querySelector('#lat').innerHTML;
+        console.log(this.posts.lat);
+        map.latitude = lat;
+      }
+    });
+  </script>
+</dom-module>
